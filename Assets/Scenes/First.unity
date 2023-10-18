@@ -401,7 +401,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6522613755669186122, guid: a45106bd1636d75419126ed951319a51, type: 3}
       propertyPath: m_Name
-      value: Robot
+      value: Robot1
       objectReference: {fileID: 0}
     - target: {fileID: 6522613755669186127, guid: a45106bd1636d75419126ed951319a51, type: 3}
       propertyPath: m_RootOrder
