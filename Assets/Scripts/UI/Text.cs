@@ -18,7 +18,7 @@ public class Text : MonoBehaviour
 
         for (int i = 0; i < resourceText.Length; i++)
         {
-            resourceText[i].text = T[i].ToString();
+            resourceText[i].text = (Mathf.Round(T[i] * 1000) / 1000f).ToString();
         }
     }
 }

@@ -472,6 +472,18 @@ PrefabInstance:
       value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 6522613755906304959, guid: a45106bd1636d75419126ed951319a51, type: 3}
+      propertyPath: m_XDrive.damping
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522613755906304959, guid: a45106bd1636d75419126ed951319a51, type: 3}
+      propertyPath: m_XDrive.stiffness
+      value: 100000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522613755906304959, guid: a45106bd1636d75419126ed951319a51, type: 3}
+      propertyPath: m_XDrive.forceLimit
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522613755906304959, guid: a45106bd1636d75419126ed951319a51, type: 3}
       propertyPath: m_XDrive.lowerLimit
       value: -30
       objectReference: {fileID: 0}

@@ -13,8 +13,8 @@ public class EndEffectorWorldPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("worldPos : " + transform.position);
-        Debug.Log("worldRot : " + transform.eulerAngles);
+        //Debug.Log("worldPos : " + transform.position);
+        //Debug.Log("worldRot : " + transform.eulerAngles);
         //Debug.Log("localPos : " + transform.localPosition);
         //Debug.Log("localPos : " + transform.localRotation);
     }

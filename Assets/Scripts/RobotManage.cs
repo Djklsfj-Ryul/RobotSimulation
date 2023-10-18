@@ -28,11 +28,6 @@ public class RobotManage : MonoBehaviour
     private void Awake()
     {
         data_Dialog = CSVReader.Read("TEST2");
-
-        for (int i = 0; i < data_Dialog.Count; i++)
-        {
-            print(data_Dialog[i]["time"].ToString() + " : " + (data_Dialog[i]["endeffect"].ToString()) + " : " + (data_Dialog[i]["revol"].ToString()));
-        }
     }
 
     int scenarioIndex = 0;
@@ -65,20 +60,18 @@ public class RobotManage : MonoBehaviour
     void Update()
     {
         updateJoint();
-
-        if(Time.time - pTime >= float.Parse(data_Dialog[scenarioIndex]["time"].ToString()))
+        //print(float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()));
+        //print(float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()));
+        print("EndEffector : " + 0.3f * (1 - float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
+        print("Revolution : " + (60f * (-1) * float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()) / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
+        if (Time.time - pTime >= float.Parse(data_Dialog[scenarioIndex]["time"].ToString()))
         {
-            data_Dialog[scenarioIndex]["endeffect"].ToString();
-
-
-
-            pTime = Time.time;
+            //print(0.3f * float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1]));
+            setJoint(6, 0.3f * (1 - float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
+            setJoint(3, (60f * float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()) / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
+            scenarioIndex++;
         }
-        print(Time.time - pTime);
-
-        setJoint(0, -0.1f);
-        setJoint(6, 0.3f);
-        setJoint(1, -0.15f);
+        //print(Time.time - pTime + " |||||||||||| " + float.Parse(data_Dialog[scenarioIndex]["time"].ToString()));
     }
 
     public void setJoint(int index, float value)
