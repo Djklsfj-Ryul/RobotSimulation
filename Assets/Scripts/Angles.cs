@@ -10,7 +10,7 @@ public class Angles : MonoBehaviour
     [SerializeField]
     private ArticulationDrive currentDrive;
     [SerializeField]
-    private float a = 0f;
+    private float a;
     // Start is called before the first frame update
     void Start()
     {
