@@ -9,6 +9,9 @@ public class ClickManager : MonoBehaviour
 
     public Camera mainCamera;
 
+    public GameObject currentRobot;
+
+
     // Update is called once per frame
     void Update()
     {
@@ -37,9 +40,13 @@ public class ClickManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 string objectName = hit.collider.gameObject.name;
-
-                if(objectName == "baseCube")
+                if(objectName == "Robot")
                 {
+                    currentRobot = hit.collider.gameObject;
+                    currentRobot.transform.Find("Canvas").gameObject.SetActive(true);
+                    currentRobot.transform.Find("Camera").gameObject.SetActive(true);
+                    mainCamera.gameObject.SetActive(false);
+
                     isPicked = true;
 
                     return objectName;
@@ -50,6 +57,10 @@ public class ClickManager : MonoBehaviour
     }
     private void returnMain()
     {
+        currentRobot.transform.Find("Canvas").gameObject.SetActive(false);
+        currentRobot.transform.Find("Camera").gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
+
+        currentRobot = null;
     }
 }
