@@ -14,30 +14,31 @@ print('socket listensing ... ')
 
 readsocks = [server_socket]
 
-latestData = ""
+latestData = b"123"
 finishCommTrigger = True
 
+data = ""
 
 while finishCommTrigger:
     readables, writeables, excepctions = select.select(readsocks, [], [])
-    print(readables, writeables, excepctions)
     for sock in readables:
         if sock == server_socket:
             newsock, addr = server_socket.accept()
             readsocks.append(newsock)
         else:
             c = sock
-            data = c.recv(1024)
-            print(data)
+            try:
+                data = c.recv(struct.calcsize('2i2i?'))
+                if len(data) == struct.calcsize('2i2i?'): # 받은 데이터 값이 존재
+                    unpacked_data = struct.unpack('2i2L?', data)
+                    if (unpacked_data[4] == True):
+                        print('Comm_disconnect')
+                        finishCommTrigger = False
 
-            if len(data) == struct.calcsize('2i2i?'): # 받은 데이터 값이 존재
-                unpacked_data = struct.unpack('2i2L?', data)
-                if (unpacked_data[4] == True):
-                    print('Comm_disconnect')
-                    finishCommTrigger = False
-
-                latestData = unpacked_data[0] + "," + unpacked_data[1]
-                print(f'Encoder1 : {unpacked_data[0]}, Encoder : {unpacked_data[1]}')
-                print(f'sec(s) : {unpacked_data[2]}.{unpacked_data[3]}')
-            else:
-                c.sendall(b"wef")
+                    latestData = unpacked_data[0].encode('utf-16') + b"," + unpacked_data[1].encode('utf-16') 
+                    print(f'Encoder1 : {unpacked_data[0]}, Encoder : {unpacked_data[1]}')
+                    print(f'sec(s) : {unpacked_data[2]}.{unpacked_data[3]}')
+                else:
+                    c.sendall(latestData)
+            except:
+                c.close()

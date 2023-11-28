@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/StartUI.unity
+    guid: 76ed530cf4e6fd74497bd46744fbed67
+  - enabled: 1
+    path: Assets/Scenes/RobotProject.unity
+    guid: 7d4d0984f682bc641921582f06ebd28d
   m_configObjects: {}

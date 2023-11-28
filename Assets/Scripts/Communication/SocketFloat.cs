@@ -3,6 +3,8 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System;
+using UnityEngine.SceneManagement;
+using System.Threading;
 
 public class SocketFloat : MonoBehaviour
 {
@@ -10,33 +12,42 @@ public class SocketFloat : MonoBehaviour
     public int port = 4444;
     public Socket client;
     [SerializeField]
-    private int[] dataOut, dataIn; //debugging
-
+    private byte[] dataOut; //debugging
+    
     public void Receive()
     {
         //initialize socket
         client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        try
-        {
-            client.Connect(ip, port);
-        }
-        catch (Exception)
-        {
-            Debug.Log("Connection Failed");
-            throw;
-        }
-        /*
+        client.Connect(ip, port);
+
+        dataOut = Encoding.UTF8.GetBytes("hello");
+        client.Send(dataOut);
+        byte[] bytes = new byte[1024];
+        //client.ReceiveTimeout = 100;
+        int n = client.Receive(bytes);
+        Debug.Log(Encoding.UTF8.GetString(bytes, 0, n));
+
+        Debug.Log("연결 완료");
+    }
+
+    public void CatchData()
+    {
+        dataOut = Encoding.UTF8.GetBytes("2");
         //convert floats to bytes, send to port
         var byteArray = new byte[dataOut.Length];
         Buffer.BlockCopy(dataOut, 0, byteArray, 0, byteArray.Length);
-        client.Send(byteArray);
-        
-        //allocate and receive bytes
-        byte[] bytes = new byte[4000];
+        client.Send(dataOut);
+
+        byte[] bytes = new byte[1024];
+        //client.ReceiveTimeout = 100;
         int n = client.Receive(bytes);
+
         Debug.Log(Encoding.UTF8.GetString(bytes, 0, n));
-        */
-        //client.Close();
-        Debug.Log("연결 완료");
+    }
+    
+    private void Update()
+    {
+        if (client != null)
+            CatchData();
     }
 }
