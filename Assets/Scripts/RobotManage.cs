@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class RobotManage : MonoBehaviour
@@ -11,10 +12,10 @@ public class RobotManage : MonoBehaviour
     private float[,] minMaxJoint0 = new float[2, 2] { { -0.25f, 0f }, { 0f, 0f } };
     private float[,] minMaxJoint1 = new float[2, 2] { { -0.2f, 0.05f }, { 0f, 0f } };
     private float[,] minMaxJoint2 = new float[2, 2] { { -0.15f, 0.2f }, { 0f, 0f } };
-    private float[,] minMaxJoint3 = new float[2, 2] { { 30f, -30f }, { 13f, -5619f } };
+    private float[,] minMaxJoint3 = new float[2, 2] { { 30f, -30f }, { 0f, 4500f } };
     private float[,] minMaxJoint4 = new float[2, 2] { { -0f, 0f }, { 0f, 0f } };
     private float[,] minMaxJoint5 = new float[2, 2] { { -0f, 0f }, { 0f, 0f } };
-    private float[,] minMaxJoint6 = new float[2, 2] { { -0f, 0.3f }, { 10381f, 11f } };
+    private float[,] minMaxJoint6 = new float[2, 2] { { -0f, 0.3f }, { 9700f, 0f } };
     private float[,] minMaxJoint7 = new float[2, 2] { { -90f, 90f }, { 0f, 0f } };
 
     [SerializeField]
@@ -28,6 +29,9 @@ public class RobotManage : MonoBehaviour
     private float pTime;
     public RobotParameter Robot { get => robot; set => robot = value; }
 
+    public SocketFloat manage;
+    public Dropdown agents;
+
     private void Awake()
     {
        // data_Dialog = CSVReader.Read("TEST2");
@@ -38,6 +42,8 @@ public class RobotManage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        manage = GameObject.Find("Manager").GetComponent<SocketFloat>();
+        agents = GameObject.Find("AgentControl").GetComponent<Dropdown>();
         //추후 Parameter를 사용하여 변경예정
         robotClass  = new ArticulationBody[] { transform.GetChild(1).transform.GetChild(2).GetComponent<ArticulationBody>(),
                                               transform.GetChild(1).transform.GetChild(2).transform.GetChild(2).GetComponent<ArticulationBody>(),
@@ -63,6 +69,15 @@ public class RobotManage : MonoBehaviour
     void Update()
     {
         updateJoint();
+        if(agents.value == 1) // single control이라면 이름이 같은 경우에만 사용
+        {
+            Dropdown agent = GameObject.Find("MainCanvas").transform.Find("Agents").GetComponent<Dropdown>();
+            if (int.Parse(gameObject.name.Split()[1]) != agent.value)
+                return;
+        }
+        setJoint(6, 0.3f * (manage.masterDeviceJointData[1] / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
+        setJoint(3, (60f * manage.masterDeviceJointData[0] / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
+
         //print(float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()));
         //print(float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()));
         //print("EndEffector : " + 0.3f * (1 - float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
@@ -75,8 +90,7 @@ public class RobotManage : MonoBehaviour
             setJoint(6, 0.3f * (1 - float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
             setJoint(3, (60f * float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()) / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
             scenarioIndex++;
-        }
-        */
+        }*/
 
         //print(Time.time - pTime + " |||||||||||| " + float.Parse(data_Dialog[scenarioIndex]["time"].ToString()));
     }
@@ -84,14 +98,31 @@ public class RobotManage : MonoBehaviour
     public void setJoint(int index, float value)
     {
         jointPos[index].target = value;
-        
-        robotClass[0].xDrive = jointPos[0];
-        robotClass[1].zDrive = jointPos[1];
-        robotClass[2].yDrive = jointPos[2];
-        robotClass[3].xDrive = jointPos[3];
-        robotClass[6].zDrive = jointPos[6];
-        robotClass[7].xDrive = jointPos[7];
-    
+
+        switch (index)
+        {
+            case 0:
+                robotClass[0].xDrive = jointPos[0];
+                break;
+            case 1:
+                robotClass[1].zDrive = jointPos[1];
+                break;
+            case 2:
+                robotClass[2].yDrive = jointPos[2];
+                break;
+            case 3:
+                robotClass[3].xDrive = jointPos[3];
+                break;
+            case 6:
+                robotClass[6].zDrive = jointPos[6];
+                break;
+            case 7:
+                robotClass[7].xDrive = jointPos[7];
+                break;
+            default:
+                break;
+        }
+
     }
 
     public float[] updateJoint()
