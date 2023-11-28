@@ -30,7 +30,7 @@ public class RobotManage : MonoBehaviour
 
     private void Awake()
     {
-        data_Dialog = CSVReader.Read("TEST2");
+       // data_Dialog = CSVReader.Read("TEST2");
     }
 
     int scenarioIndex = 0;
@@ -67,6 +67,8 @@ public class RobotManage : MonoBehaviour
         //print(float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()));
         //print("EndEffector : " + 0.3f * (1 - float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
         //print("Revolution : " + (60f * (-1) * float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()) / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
+
+        /*
         if (Time.time - pTime >= float.Parse(data_Dialog[scenarioIndex]["time"].ToString()))
         {
             //print(0.3f * float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1]));
@@ -74,6 +76,8 @@ public class RobotManage : MonoBehaviour
             setJoint(3, (60f * float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()) / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
             scenarioIndex++;
         }
+        */
+
         //print(Time.time - pTime + " |||||||||||| " + float.Parse(data_Dialog[scenarioIndex]["time"].ToString()));
     }
 

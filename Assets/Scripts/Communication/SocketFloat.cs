@@ -13,7 +13,9 @@ public class SocketFloat : MonoBehaviour
     public Socket client;
     [SerializeField]
     private byte[] dataOut; //debugging
-    
+
+    public int[] masterDeviceJointData = new int[] { 0, 0 };
+
     public void Receive()
     {
         //initialize socket
@@ -42,9 +44,12 @@ public class SocketFloat : MonoBehaviour
         //client.ReceiveTimeout = 100;
         int n = client.Receive(bytes);
 
-        Debug.Log(Encoding.UTF8.GetString(bytes, 0, n));
+        string[] T = Encoding.UTF8.GetString(bytes, 0, n).Split(',');
+
+        masterDeviceJointData[0] = int.Parse(T[0]);
+        masterDeviceJointData[1] = int.Parse(T[1]);
     }
-    
+
     private void Update()
     {
         if (client != null)

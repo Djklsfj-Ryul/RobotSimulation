@@ -18,9 +18,7 @@ nicknames = []
 def handle(client):
     try:
         while True:
-            print(client)
             message = client.recv(1024)
-            print(message)
             if len(message) == struct.calcsize('2i2i?'):
                 unpacked_data = struct.unpack('2i2L?', message)
                 if (unpacked_data[4] == True):
@@ -28,10 +26,13 @@ def handle(client):
                     break
                 print(f'Encoder1 : {unpacked_data[0]}, Encoder : {unpacked_data[1]}')
                 print(f'sec(s) : {unpacked_data[2]}.{unpacked_data[3]}')
+                joint = (unpacked_data[0] + "," + unpacked_data[1]).encode('utf-8')
 
-                client.send(unpacked_data[0])
+                if(message == b'2'):
+                    client.send(joint)
             else:
-                client.send(b'3230, 5049')
+                if(message == b'2'):
+                    client.send(b'3230,5049')
     except:
         print("client exit")
         clients.remove(client)

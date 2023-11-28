@@ -40,7 +40,7 @@ public class ClickManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 string objectName = hit.collider.gameObject.name;
-                if(objectName == "Robot")
+                if(objectName.Split()[0] == "Robot")
                 {
                     currentRobot = hit.collider.gameObject;
                     currentRobot.transform.Find("Canvas").gameObject.SetActive(true);
