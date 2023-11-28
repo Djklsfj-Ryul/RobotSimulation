@@ -62,8 +62,8 @@ public class RobotManage : MonoBehaviour
         updateJoint();
         //print(float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()));
         //print(float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()));
-        print("EndEffector : " + 0.3f * (1 - float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
-        print("Revolution : " + (60f * (-1) * float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()) / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
+        //print("EndEffector : " + 0.3f * (1 - float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1])));
+        //print("Revolution : " + (60f * (-1) * float.Parse(data_Dialog[scenarioIndex]["revol"].ToString()) / (minMaxJoint3[1, 0] - minMaxJoint3[1, 1])) + 30f);
         if (Time.time - pTime >= float.Parse(data_Dialog[scenarioIndex]["time"].ToString()))
         {
             //print(0.3f * float.Parse(data_Dialog[scenarioIndex]["endeffect"].ToString()) / (minMaxJoint6[1, 0] - minMaxJoint6[1, 1]));

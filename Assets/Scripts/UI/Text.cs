@@ -9,7 +9,6 @@ public class Text : MonoBehaviour
     private void Start()
     {
         resourceText = GetComponentsInChildren<TextMeshProUGUI>();
-        print(resourceText.Length);
     }
     // Update is called once per frame
     void Update()
