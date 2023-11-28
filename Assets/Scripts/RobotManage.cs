@@ -5,6 +5,9 @@ using System;
 
 public class RobotManage : MonoBehaviour
 {
+    [SerializeField]
+    private bool isPicked;
+
     private float[,] minMaxJoint0 = new float[2, 2] { { -0.25f, 0f }, { 0f, 0f } };
     private float[,] minMaxJoint1 = new float[2, 2] { { -0.2f, 0.05f }, { 0f, 0f } };
     private float[,] minMaxJoint2 = new float[2, 2] { { -0.15f, 0.2f }, { 0f, 0f } };
